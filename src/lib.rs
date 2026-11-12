@@ -85,7 +85,7 @@ impl FirmwareRecord {
         text(&self.board).unwrap_or("")
     }
 
-    /// The firmware, e.g. `marco-sparko-capture`.
+    /// The firmware, e.g. `bruce-smart-home-capture`.
     pub fn firmware(&self) -> &str {
         text(&self.firmware).unwrap_or("")
     }
@@ -144,17 +144,17 @@ mod tests {
 
     #[test]
     fn round_trip() {
-        let record = FirmwareRecord::new("wave-esp32s3-rlcd-42", "marco-sparko-capture", "0.1.0");
+        let record = FirmwareRecord::new("wave-esp32s3-rlcd-42", "bruce-smart-home-capture", "0.1.0");
         let bytes: [u8; SIZE] = unsafe { core::mem::transmute(record.clone()) };
         assert_eq!(FirmwareRecord::parse(&bytes), Some(record.clone()));
         assert_eq!(record.board(), "wave-esp32s3-rlcd-42");
-        assert_eq!(record.firmware(), "marco-sparko-capture");
+        assert_eq!(record.firmware(), "bruce-smart-home-capture");
         assert_eq!(record.version(), "0.1.0");
     }
 
     #[test]
     fn found_after_other_bytes() {
-        let record = FirmwareRecord::new("guition-jc3248w535c", "marco-sparko-capture", "0.1.0");
+        let record = FirmwareRecord::new("guition-jc3248w535c", "bruce-smart-home-capture", "0.1.0");
         let bytes: [u8; SIZE] = unsafe { core::mem::transmute(record.clone()) };
         let mut image = [0xffu8; 1024];
         image[0x120..0x120 + SIZE].copy_from_slice(&bytes);
