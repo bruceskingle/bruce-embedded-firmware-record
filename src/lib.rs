@@ -43,7 +43,12 @@ impl FirmwareRecord {
     /// name, and its version. It is a const fn so that the record is a static the linker can place; a name longer
     /// than FIELD_LEN bytes fails the build.
     pub const fn new(board: &str, firmware: &str, version: &str) -> Self {
-        FirmwareRecord { magic: MAGIC, board: field(board), firmware: field(firmware), version: field(version) }
+        FirmwareRecord {
+            magic: MAGIC,
+            board: field(board),
+            firmware: field(firmware),
+            version: field(version),
+        }
     }
 
     /// The record at the start of the bytes, or None if they do not start with MAGIC, or a field is not UTF-8.
@@ -68,7 +73,11 @@ impl FirmwareRecord {
 
     /// The first record in the bytes, e.g. the start of an app partition or an image's section, wherever it is.
     pub fn find(bytes: &[u8]) -> Option<Self> {
-        bytes.windows(MAGIC.len()).enumerate().filter(|(_, window)| *window == MAGIC).find_map(|(at, _)| Self::parse(&bytes[at..]))
+        bytes
+            .windows(MAGIC.len())
+            .enumerate()
+            .filter(|(_, window)| *window == MAGIC)
+            .find_map(|(at, _)| Self::parse(&bytes[at..]))
     }
 
     /// The board the firmware was built for, e.g. `wave-esp32s3-rlcd-42`.
@@ -90,8 +99,14 @@ impl FirmwareRecord {
 /// As the firmware logs it, starting with the magic, so that it can be found in a log.
 impl fmt::Display for FirmwareRecord {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}: board={} firmware={} version={}", text(&self.magic).unwrap_or(""), self.board(), self.firmware(),
-            self.version())
+        write!(
+            f,
+            "{}: board={} firmware={} version={}",
+            text(&self.magic).unwrap_or(""),
+            self.board(),
+            self.firmware(),
+            self.version()
+        )
     }
 }
 
@@ -104,7 +119,10 @@ impl fmt::Debug for FirmwareRecord {
 /// The text, padded with NULs, which fails the build, when called in a const, if it is too long.
 const fn field(text: &str) -> [u8; FIELD_LEN] {
     let bytes = text.as_bytes();
-    assert!(bytes.len() <= FIELD_LEN, "a firmware record's names are at most 64 bytes");
+    assert!(
+        bytes.len() <= FIELD_LEN,
+        "a firmware record's names are at most 64 bytes"
+    );
     let mut field = [0u8; FIELD_LEN];
     let mut i = 0;
     while i < bytes.len() {
