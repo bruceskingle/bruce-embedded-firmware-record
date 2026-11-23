@@ -1,5 +1,12 @@
 # ChangeLog
 
+# Release 0.2.0
+
+## New
+
+- The Waveshare ESP32-S3-LCD-1.47B, `wave-esp32s3-lcd-147`, in the list of board types, so that firmware can be built
+  and flashed for it.
+
 # Release 0.1.0
 
 ## New
