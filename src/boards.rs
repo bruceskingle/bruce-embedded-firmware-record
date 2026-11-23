@@ -63,6 +63,14 @@ pub const BOARD_TYPES: &[BoardType] = &[
         boot: "Hold BOOT, press and release RESET, then release BOOT.",
     },
     BoardType {
+        id: "wave-esp32s3-lcd-147",
+        name: "Waveshare ESP32-S3-LCD-1.47B",
+        chip: "esp32s3",
+        url: Some("https://www.waveshare.com/product/esp32-related/boards-kits/esp32-s3/esp32-s3-lcd-1.47b.htm"),
+        looks: "A 1.47 inch 172x320 colour screen without touch, on a small board with a TF card slot, an RGB LED and a battery connector.",
+        boot: "Hold BOOT, press and release RESET, then release BOOT.",
+    },
+    BoardType {
         id: "seeed-esp32c6-xiao",
         name: "Seeed Studio XIAO ESP32C6",
         chip: "esp32c6",
